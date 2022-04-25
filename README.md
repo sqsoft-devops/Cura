@@ -14,7 +14,7 @@ For crashes and similar issues, please attach the following information:
   * `$HOME/Library/Application Support/cura/<Cura version>/cura.log` (OSX)
   * `$HOME/.local/share/cura/<Cura version>/cura.log` (Ubuntu/Linux)
 
-If the Cura user interface still starts, you can also reach this directory from the application menu in Help -> Show settings folder
+If the Cura usser interface still starts, you can also reach this directory from the application menu in Help -> Show settings folder
 
 For additional support, you could also ask in the [#cura channel](https://web.libera.chat/#cura) on [libera.chat](https://libera.chat/). For help with development, there is also the [#cura-dev channel](https://web.libera.chat/#cura-dev).
 
