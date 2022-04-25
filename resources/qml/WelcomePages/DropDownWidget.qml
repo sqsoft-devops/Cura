@@ -1,10 +1,10 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 
-import UM 1.5 as UM
+import UM 1.3 as UM
 import Cura 1.1 as Cura
 
 
@@ -61,7 +61,7 @@ Item
         anchors.left: header.left
         anchors.right: header.right
         // Add 2x lining, because it needs a bit of space on the top and the bottom.
-        height: contentLoader.item ? contentLoader.item.height + 2 * UM.Theme.getSize("thick_lining").height : 0
+        height: contentLoader.item.height + 2 * UM.Theme.getSize("thick_lining").height
 
         border.width: UM.Theme.getSize("default_lining").width
         border.color: UM.Theme.getColor("lining")
@@ -88,12 +88,14 @@ Item
         {
             id: emptyComponent
 
-            UM.Label
+            Label
             {
                 text: catalog.i18nc("@label", "Empty")
                 height: UM.Theme.getSize("action_button").height
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 font: UM.Theme.getFont("medium")
+                renderType: Text.NativeRendering
             }
         }
     }

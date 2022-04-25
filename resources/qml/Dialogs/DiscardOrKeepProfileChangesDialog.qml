@@ -1,29 +1,23 @@
-//Copyright (c) 2022 Ultimaker B.V.
-//Cura is released under the terms of the LGPLv3 or higher.
+// Copyright (c) 2020 Ultimaker B.V.
+// Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.1
-import QtQuick.Controls 2.15
+import QtQuick.Controls 1.1
+import QtQuick.Controls 2.15 as NewControls
+import QtQuick.Dialogs 1.2
+import QtQuick.Window 2.1
 
-import UM 1.6 as UM
-import Cura 1.6 as Cura
+import UM 1.2 as UM
+import Cura 1.0 as Cura
 
 UM.Dialog
 {
     id: base
     title: catalog.i18nc("@title:window", "Discard or Keep changes")
 
-    onAccepted: CuraApplication.discardOrKeepProfileChangesClosed("discard")
-    onRejected: CuraApplication.discardOrKeepProfileChangesClosed("keep")
-
     minimumWidth: UM.Theme.getSize("popup_dialog").width
     minimumHeight: UM.Theme.getSize("popup_dialog").height
-    width: minimumWidth
-    height: minimumHeight
-    backgroundColor: UM.Theme.getColor("background_1")
-    margin: UM.Theme.getSize("thick_margin").width
-
-    property var changesModel: Cura.UserChangesModel { id: userChangesModel }
-
+    property var changesModel: Cura.UserChangesModel{ id: userChangesModel}
     onVisibilityChanged:
     {
         if(visible)
@@ -43,57 +37,119 @@ UM.Dialog
         }
     }
 
-    UM.Label
+    Row
     {
-        id: infoText
-        text: catalog.i18nc("@text:window, %1 is a profile name", "You have customized some profile settings. Would you like to Keep these changed settings after switching profiles? Alternatively, you can discard the changes to load the defaults from '%1'.").arg(Cura.MachineManager.activeQualityDisplayNameMap["main"])
+        id: infoTextRow
+        height: childrenRect.height
+        anchors.margins: UM.Theme.getSize("default_margin").width
         anchors.left: parent.left
         anchors.right: parent.right
-        wrapMode: Text.WordWrap
+        anchors.top: parent.top
+        spacing: UM.Theme.getSize("default_margin").width
 
         UM.I18nCatalog
         {
-            id: catalog
+            id: catalog;
             name: "cura"
+        }
+
+        Label
+        {
+            text: catalog.i18nc("@text:window, %1 is a profile name", "You have customized some profile settings.\nWould you like to Keep these changed settings after switching profiles?\nAlternatively, you can discard the changes to load the defaults from '%1'.").arg(Cura.MachineManager.activeQualityDisplayNameMap["main"])
+            anchors.margins: UM.Theme.getSize("default_margin").width
+            wrapMode: Text.WordWrap
         }
     }
 
     Item
     {
-        anchors.topMargin: UM.Theme.getSize("default_margin").height
-        anchors.top: infoText.bottom
-        anchors.bottom: parent.bottom
+        anchors.margins: UM.Theme.getSize("default_margin").width
+        anchors.top: infoTextRow.bottom
+        anchors.bottom: optionRow.top
         anchors.left: parent.left
         anchors.right: parent.right
-
-        Cura.TableView
+        TableView
         {
-            id: tableView
             anchors.fill: parent
-
-            columnHeaders: [
-                catalog.i18nc("@title:column", "Profile settings"),
-                Cura.MachineManager.activeQualityDisplayNameMap["main"],
-                catalog.i18nc("@title:column", "Current changes")
-            ]
-            model: UM.TableModel
+            height: base.height - 150
+            id: tableView
+            Component
             {
-                headers: ["label", "original_value", "user_value"]
-                rows: userChangesModel.items
+                id: labelDelegate
+                Label
+                {
+                    property var extruder_name: userChangesModel.getItem(styleData.row).extruder
+                    anchors.left: parent.left
+                    anchors.leftMargin: UM.Theme.getSize("default_margin").width
+                    anchors.right: parent.right
+                    elide: Text.ElideRight
+                    font: UM.Theme.getFont("system")
+                    text:
+                    {
+                        var result = styleData.value
+                        if (extruder_name != "")
+                        {
+                            result += " (" + extruder_name + ")"
+                        }
+                        return result
+                    }
+                }
             }
-            sectionRole: "category"
+
+            Component
+            {
+                id: defaultDelegate
+                Label
+                {
+                    text: styleData.value
+                    font: UM.Theme.getFont("system")
+                }
+            }
+
+            TableViewColumn
+            {
+                role: "label"
+                title: catalog.i18nc("@title:column", "Profile settings")
+                delegate: labelDelegate
+                width: (tableView.width * 0.4) | 0
+            }
+            TableViewColumn
+            {
+                role: "original_value"
+                title: Cura.MachineManager.activeQualityDisplayNameMap["main"]
+                width: (tableView.width * 0.3) | 0
+                delegate: defaultDelegate
+            }
+            TableViewColumn
+            {
+                role: "user_value"
+                title: catalog.i18nc("@title:column", "Current changes")
+                width: (tableView.width * 0.3) | 0
+            }
+            section.property: "category"
+            section.delegate: Label
+            {
+                text: section
+                font.bold: true
+            }
+
+            model: userChangesModel
         }
     }
 
-    buttonSpacing: UM.Theme.getSize("thin_margin").width
+    Item
+    {
+        id: optionRow
+        anchors.bottom: buttonsRow.top
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.margins: UM.Theme.getSize("default_margin").width
+        height: childrenRect.height
 
-    leftButtons: [
-        Cura.ComboBox
+        NewControls.ComboBox
         {
-            implicitHeight: UM.Theme.getSize("combobox").height
-            implicitWidth: UM.Theme.getSize("combobox").width
-
             id: discardOrKeepProfileChangesDropDownButton
+            width: 300
             textRole: "text"
 
             model: ListModel
@@ -126,21 +182,41 @@ UM.Dialog
                 }
             }
         }
-    ]
+    }
 
-    rightButtons:
-    [
-        Cura.PrimaryButton
+    Item
+    {
+        id: buttonsRow
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.margins: UM.Theme.getSize("default_margin").width
+        height: childrenRect.height
+
+        Button
         {
             id: discardButton
-            text: catalog.i18nc("@action:button", "Discard changes")
-            onClicked: base.accept()
-        },
-        Cura.SecondaryButton
+            text: catalog.i18nc("@action:button", "Discard changes");
+            anchors.right: parent.right
+            onClicked:
+            {
+                CuraApplication.discardOrKeepProfileChangesClosed("discard")
+                base.hide()
+            }
+            isDefault: true
+        }
+
+        Button
         {
             id: keepButton
-            text: catalog.i18nc("@action:button", "Keep changes")
-            onClicked: base.reject()
+            text: catalog.i18nc("@action:button", "Keep changes");
+            anchors.right: discardButton.left
+            anchors.rightMargin: UM.Theme.getSize("default_margin").width
+            onClicked:
+            {
+                CuraApplication.discardOrKeepProfileChangesClosed("keep")
+                base.hide()
+            }
         }
-    ]
+    }
 }

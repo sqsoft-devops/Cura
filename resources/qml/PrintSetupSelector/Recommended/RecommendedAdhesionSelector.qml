@@ -2,8 +2,10 @@
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.7
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
-import UM 1.5 as UM
+import UM 1.2 as UM
 import Cura 1.0 as Cura
 
 
@@ -42,7 +44,7 @@ Item
             verticalCenter: enableAdhesionRowTitle.verticalCenter
         }
 
-        UM.CheckBox
+        CheckBox
         {
             id: enableAdhesionCheckBox
             anchors.verticalCenter: parent.verticalCenter
@@ -50,6 +52,7 @@ Item
             property alias _hovered: adhesionMouseArea.containsMouse
 
             //: Setting enable printing build-plate adhesion helper checkbox
+            style: UM.Theme.styles.checkbox
             enabled: recommendedPrintSetup.settingsEnabled
 
             visible: platformAdhesionType.properties.enabled == "True"

@@ -31,7 +31,7 @@ Item
                 Behavior on opacity { NumberAnimation { duration: 100; } }
             }
 
-            UM.ColorImage
+            UM.RecolorImage
             {
                 anchors.fill: parent
                 color: UM.Theme.getColor("primary_text")

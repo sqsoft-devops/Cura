@@ -1,15 +1,15 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2021 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.2
-import QtQuick.Controls 2.1
+import QtQuick.Controls 1.1
 
-import UM 1.5 as UM
+import UM 1.6 as UM
 import Cura 1.1 as Cura
 
 import "../Dialogs"
 
-Cura.Menu
+Menu
 {
     id: saveProjectMenu
     title: catalog.i18nc("@title:menu menubar:file", "Save Project...")
@@ -18,7 +18,7 @@ Cura.Menu
     Instantiator
     {
         id: projectOutputDevices
-        Cura.MenuItem
+        MenuItem
         {
             text: model.name
             onTriggered:
@@ -40,11 +40,12 @@ Cura.Menu
                     UM.OutputDeviceManager.requestWriteToDevice(model.id, PrintInformation.jobName, args)
                 }
             }
-            shortcut: model.shortcut
-            enabled: saveProjectMenu.shouldBeVisible
+            // Unassign the shortcuts when the submenu is invisible (i.e. when there is only one project output device) to avoid ambiguous shortcuts.
+            // When there is only the LocalFileOutputDevice, the Ctrl+S shortcut is assigned to the saveWorkspaceMenu MenuItem
+            shortcut: saveProjectMenu.visible ? model.shortcut : ""
         }
-        onObjectAdded: function(index, object) {  saveProjectMenu.insertItem(index, object)}
-        onObjectRemoved: function(object) {  saveProjectMenu.removeItem(object)}
+        onObjectAdded: saveProjectMenu.insertItem(index, object)
+        onObjectRemoved: saveProjectMenu.removeItem(object)
     }
 
     WorkspaceSummaryDialog
@@ -52,6 +53,6 @@ Cura.Menu
         id: saveWorkspaceDialog
         property var args
         property var deviceId
-        onAccepted: UM.OutputDeviceManager.requestWriteToDevice(deviceId, PrintInformation.jobName, args)
+        onYes: UM.OutputDeviceManager.requestWriteToDevice(deviceId, PrintInformation.jobName, args)
     }
 }

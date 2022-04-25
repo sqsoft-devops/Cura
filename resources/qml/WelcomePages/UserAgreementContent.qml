@@ -4,7 +4,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 
-import UM 1.5 as UM
+import UM 1.3 as UM
 import Cura 1.1 as Cura
 
 //
@@ -14,7 +14,7 @@ Item
 {
     UM.I18nCatalog { id: catalog; name: "cura" }
 
-    UM.Label
+    Label
     {
         id: titleLabel
         anchors.top: parent.top
@@ -23,9 +23,10 @@ Item
         text: catalog.i18nc("@label", "User Agreement")
         color: UM.Theme.getColor("primary_button")
         font: UM.Theme.getFont("huge")
+        renderType: Text.NativeRendering
     }
 
-    UM.Label
+    Label
     {
         id: disclaimerLineLabel
         anchors
@@ -43,6 +44,8 @@ Item
         textFormat: Text.RichText
         wrapMode: Text.WordWrap
         font: UM.Theme.getFont("medium")
+        color: UM.Theme.getColor("text")
+        renderType: Text.NativeRendering
     }
 
     Cura.PrimaryButton

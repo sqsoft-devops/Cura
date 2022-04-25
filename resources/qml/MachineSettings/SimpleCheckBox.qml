@@ -5,7 +5,7 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
-import UM 1.5 as UM
+import UM 1.3 as UM
 import Cura 1.1 as Cura
 
 
@@ -20,7 +20,7 @@ UM.TooltipArea
 
     property int controlHeight: UM.Theme.getSize("setting_control").height
 
-    height: controlHeight
+    height: childrenRect.height
     width: childrenRect.width
     text: tooltip
 
@@ -57,16 +57,13 @@ UM.TooltipArea
         renderType: Text.NativeRendering
     }
 
-    UM.CheckBox
+    Cura.CheckBox
     {
         id: checkBox
-        anchors {
-            left: fieldLabel.right
-            leftMargin: UM.Theme.getSize("default_margin").width
-            verticalCenter: parent.verticalCenter
-        }
+        anchors.left: fieldLabel.right
+        anchors.leftMargin: UM.Theme.getSize("default_margin").width
         checked: String(propertyProvider.properties.value).toLowerCase() != 'false'
-        height: UM.Theme.getSize("checkbox").height
+        height: simpleCheckBox.controlHeight
         text: ""
         onClicked:
         {

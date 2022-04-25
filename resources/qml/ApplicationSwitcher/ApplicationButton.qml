@@ -4,7 +4,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 
-import UM 1.5 as UM
+import UM 1.4 as UM
 import Cura 1.1 as Cura
 
 Button
@@ -31,7 +31,7 @@ Button
         border.width: UM.Theme.getSize("default_lining").width
     }
 
-    UM.ToolTip
+    Cura.ToolTip
     {
         id: tooltip
         tooltipText: base.text
@@ -45,7 +45,7 @@ Button
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
 
-        UM.ColorImage
+        UM.RecolorImage
         {
             id: applicationIcon
             anchors.horizontalCenter: parent.horizontalCenter
@@ -54,7 +54,7 @@ Button
             width: UM.Theme.getSize("application_switcher_icon").width
             height: width
 
-            UM.ColorImage
+            UM.RecolorImage
             {
                 id: externalLinkIndicatorIcon
                 visible: base.isExternalLink
@@ -73,7 +73,7 @@ Button
             }
         }
 
-        UM.Label
+        Label
         {
             id: applicationDisplayName
 
@@ -82,8 +82,10 @@ Button
 
             height: base.height - applicationIcon.height - 2 * UM.Theme.getSize("default_margin").width  // Account for the top and bottom margins
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             wrapMode: Text.Wrap
             elide: Text.ElideRight
+            color: UM.Theme.getColor("text")
         }
     }
 }

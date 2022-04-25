@@ -1,10 +1,10 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
-import QtQuick 2.15
-import QtQuick.Controls 2.14
+import QtQuick 2.10
+import QtQuick.Controls 2.3
 
-import UM 1.5 as UM
+import UM 1.3 as UM
 import Cura 1.1 as Cura
 
 
@@ -74,91 +74,121 @@ Item
     Row
     {
         id: localPrinterSelectionItem
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
 
-        //Selecting a local printer to add from this list.
-        ListView
+        // ScrollView + ListView for selecting a local printer to add
+        Cura.ScrollView
         {
-            id: machineList
+            id: scrollView
+
+            height: childrenHeight
             width: Math.floor(parent.width * 0.48)
-            height: parent.height
 
-            clip: true
-            ScrollBar.vertical: UM.ScrollBar {}
-
-            model: UM.DefinitionContainersModel
+            ListView
             {
-                id: machineDefinitionsModel
-                filter: { "visible": true }
-                sectionProperty: "manufacturer"
-                preferredSections: preferredCategories
-            }
+                id: machineList
 
-            section.property: "section"
-            section.delegate: Button
-            {
-                id: button
-                width: machineList.width
-                height: UM.Theme.getSize("action_button").height
-                text: section
-
-                property bool isActive: base.currentSection == section
-
-                background: Rectangle
+                // CURA-6793
+                // Enabling the buffer seems to cause the blank items issue. When buffer is enabled, if the ListView's
+                // individual item has a dynamic change on its visibility, the ListView doesn't redraw itself.
+                // The default value of cacheBuffer is platform-dependent, so we explicitly disable it here.
+                cacheBuffer: 0
+                boundsBehavior: Flickable.StopAtBounds
+                flickDeceleration: 20000  // To prevent the flicking behavior.
+                model: UM.DefinitionContainersModel
                 {
-                    anchors.fill: parent
-                    color: isActive ? UM.Theme.getColor("setting_control_highlight") : "transparent"
+                    id: machineDefinitionsModel
+                    filter: { "visible": true }
+                    sectionProperty: "manufacturer"
+                    preferredSections: preferredCategories
                 }
 
-                contentItem: Item
+                section.property: "section"
+                section.delegate: sectionHeader
+                delegate: machineButton
+            }
+
+            Component
+            {
+                id: sectionHeader
+
+                Button
                 {
-                    width: childrenRect.width
+                    id: button
+                    width: ListView.view.width
                     height: UM.Theme.getSize("action_button").height
+                    text: section
 
-                    UM.ColorImage
+                    property bool isActive: base.currentSection == section
+
+                    background: Rectangle
                     {
-                        id: arrow
-                        anchors.left: parent.left
-                        width: UM.Theme.getSize("standard_arrow").width
-                        height: UM.Theme.getSize("standard_arrow").height
-                        color: UM.Theme.getColor("text")
-                        source: base.currentSection == section ? UM.Theme.getIcon("ChevronSingleDown") : UM.Theme.getIcon("ChevronSingleRight")
+                        anchors.fill: parent
+                        color: isActive ? UM.Theme.getColor("setting_control_highlight") : "transparent"
                     }
 
-                    UM.Label
+                    contentItem: Item
                     {
-                        id: label
-                        anchors.left: arrow.right
-                        anchors.leftMargin: UM.Theme.getSize("default_margin").width
-                        text: button.text
-                        font: UM.Theme.getFont("default_bold")
-                    }
-                }
+                        width: childrenRect.width
+                        height: UM.Theme.getSize("action_button").height
 
-                onClicked:
-                {
-                    base.currentSection = section
-                    base.updateCurrentItemUponSectionChange()
+                        UM.RecolorImage
+                        {
+                            id: arrow
+                            anchors.left: parent.left
+                            width: UM.Theme.getSize("standard_arrow").width
+                            height: UM.Theme.getSize("standard_arrow").height
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            color: UM.Theme.getColor("text")
+                            source: base.currentSection == section ? UM.Theme.getIcon("ChevronSingleDown") : UM.Theme.getIcon("ChevronSingleRight")
+                        }
+
+                        Label
+                        {
+                            id: label
+                            anchors.left: arrow.right
+                            anchors.leftMargin: UM.Theme.getSize("default_margin").width
+                            verticalAlignment: Text.AlignVCenter
+                            text: button.text
+                            font: UM.Theme.getFont("default_bold")
+                            color: UM.Theme.getColor("text")
+                            renderType: Text.NativeRendering
+                        }
+                    }
+
+                    onClicked:
+                    {
+                        base.currentSection = section
+                        base.updateCurrentItemUponSectionChange()
+                    }
                 }
             }
 
-            delegate: Cura.RadioButton
+            Component
             {
-                id: radioButton
-                anchors
+                id: machineButton
+
+                Cura.RadioButton
                 {
-                    left: parent !== null ? parent.left : undefined
-                    leftMargin: UM.Theme.getSize("standard_list_lineheight").width
+                    id: radioButton
+                    anchors
+                    {
+                        left:  parent !== null ? parent.left: undefined
+                        leftMargin: UM.Theme.getSize("standard_list_lineheight").width
 
-                    right: parent !== null ? parent.right : undefined
-                    rightMargin: UM.Theme.getSize("default_margin").width
+                        right: parent !== null ? parent.right: undefined
+                        rightMargin: UM.Theme.getSize("default_margin").width
+                    }
+                    height: visible ? UM.Theme.getSize("standard_list_lineheight").height : 0
+
+                    checked: ListView.view.currentIndex == index
+                    text: name
+                    visible: base.currentSection.toLowerCase() === section.toLowerCase()
+                    onClicked: ListView.view.currentIndex = index
                 }
-                height: visible ? UM.Theme.getSize("standard_list_lineheight").height : 0 //This causes the scrollbar to vary in length due to QTBUG-76830.
-
-                checked: machineList.currentIndex == index
-                text: name
-                visible: base.currentSection.toLowerCase() === section.toLowerCase()
-                onClicked: machineList.currentIndex = index
             }
         }
 
@@ -167,7 +197,7 @@ Item
         {
             id: verticalLine
             anchors.top: parent.top
-            height: parent.height - UM.Theme.getSize("default_lining").height
+            height: childrenHeight - UM.Theme.getSize("default_lining").height
             width: UM.Theme.getSize("default_lining").height
             color: UM.Theme.getColor("lining")
         }
@@ -180,7 +210,7 @@ Item
             spacing: UM.Theme.getSize("default_margin").width
             padding: UM.Theme.getSize("default_margin").width
 
-            UM.Label
+            Label
             {
                 width: parent.width - (2 * UM.Theme.getSize("default_margin").width)
                 wrapMode: Text.Wrap
@@ -198,33 +228,48 @@ Item
 
                 verticalItemAlignment: Grid.AlignVCenter
 
-                UM.Label
+                Label
                 {
                     id: manufacturerLabel
                     text: catalog.i18nc("@label", "Manufacturer")
+                    font: UM.Theme.getFont("default")
+                    color: UM.Theme.getColor("text")
+                    renderType: Text.NativeRendering
                 }
-                UM.Label
+                Label
                 {
                     text: base.getMachineMetaDataEntry("manufacturer")
                     width: parent.width - manufacturerLabel.width
+                    font: UM.Theme.getFont("default")
+                    color: UM.Theme.getColor("text")
+                    renderType: Text.NativeRendering
                     wrapMode: Text.WordWrap
                 }
-                UM.Label
+                Label
                 {
                     id: profileAuthorLabel
                     text: catalog.i18nc("@label", "Profile author")
+                    font: UM.Theme.getFont("default")
+                    color: UM.Theme.getColor("text")
+                    renderType: Text.NativeRendering
                 }
-                UM.Label
+                Label
                 {
                     text: base.getMachineMetaDataEntry("author")
                     width: parent.width - profileAuthorLabel.width
+                    font: UM.Theme.getFont("default")
+                    color: UM.Theme.getColor("text")
+                    renderType: Text.NativeRendering
                     wrapMode: Text.WordWrap
                 }
 
-                UM.Label
+                Label
                 {
                     id: printerNameLabel
                     text: catalog.i18nc("@label", "Printer name")
+                    font: UM.Theme.getFont("default")
+                    color: UM.Theme.getColor("text")
+                    renderType: Text.NativeRendering
                 }
 
                 Cura.TextField
@@ -233,13 +278,15 @@ Item
                     placeholderText: catalog.i18nc("@text", "Please name your printer")
                     maximumLength: 40
                     width: parent.width - (printerNameLabel.width + (3 * UM.Theme.getSize("default_margin").width))
-                    validator: RegularExpressionValidator
+                    validator: RegExpValidator
                     {
-                        regularExpression: printerNameTextField.machineNameValidator.machineNameRegex
+                        regExp: printerNameTextField.machineNameValidator.machineNameRegex
                     }
                     property var machineNameValidator: Cura.MachineNameValidator { }
                 }
             }
         }
+
+
     }
 }

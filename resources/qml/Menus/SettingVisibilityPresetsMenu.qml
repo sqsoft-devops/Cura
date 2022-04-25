@@ -29,11 +29,14 @@ Cura.Menu
             checkable: true
             checked: modelData.presetId == settingVisibilityPresetsModel.activePreset
             ActionGroup.group: group
-            onTriggered: settingVisibilityPresetsModel.setActivePreset(modelData.presetId)
+            onTriggered:
+            {
+                settingVisibilityPresetsModel.setActivePreset(modelData.presetId);
+            }
         }
 
-        onObjectAdded: function(index, object) { menu.insertItem(index, object) }
-        onObjectRemoved: function(object) { menu.removeItem(object)}
+        onObjectAdded: menu.insertItem(index, object)
+        onObjectRemoved: menu.removeItem(object)
     }
 
     Cura.MenuSeparator {}

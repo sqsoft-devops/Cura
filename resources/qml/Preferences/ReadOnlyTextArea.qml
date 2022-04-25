@@ -2,10 +2,9 @@
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.1
-import QtQuick.Controls 2.15
-import UM 1.5 as UM
+import QtQuick.Controls 1.1
 
-ScrollView
+Item
 {
     id: base
 
@@ -16,22 +15,27 @@ ScrollView
 
     property bool readOnly: false
 
+    width: textArea.width
+    height: textArea.height
+
     TextArea
     {
         id: textArea
 
         enabled: !base.readOnly
-        selectByMouse: true
+        opacity: base.readOnly ? 0.5 : 1.0
 
-        background: UM.UnderlineBackground { id: backgroundRectangle }
+        anchors.fill: parent
 
-        color: UM.Theme.getColor("text")
-        selectionColor: UM.Theme.getColor("text_selection")
-        font: UM.Theme.getFont("default")
+        Keys.onReturnPressed:
+        {
+            base.editingFinished()
+        }
 
-        Keys.onReturnPressed:  base.editingFinished()
-
-        Keys.onEnterPressed: base.editingFinished()
+        Keys.onEnterPressed:
+        {
+            base.editingFinished()
+        }
 
         onActiveFocusChanged:
         {

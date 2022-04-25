@@ -1,10 +1,12 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2020 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.10
-import QtQuick.Controls 2.3
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.3 as Controls2
 
-import UM 1.5 as UM
+import UM 1.2 as UM
 import Cura 1.0 as Cura
 
 
@@ -43,13 +45,14 @@ Item
             verticalCenter: enableSupportRowTitle.verticalCenter
         }
 
-        UM.CheckBox
+        CheckBox
         {
             id: enableSupportCheckBox
             anchors.verticalCenter: parent.verticalCenter
 
             property alias _hovered: enableSupportMouseArea.containsMouse
 
+            style: UM.Theme.styles.checkbox
             enabled: recommendedPrintSetup.settingsEnabled
 
             visible: supportEnabled.properties.enabled == "True"
@@ -72,7 +75,7 @@ Item
             }
         }
 
-        ComboBox
+        Controls2.ComboBox
         {
             id: supportExtruderCombobox
 
@@ -154,7 +157,7 @@ Item
                 when: supportExtruderCombobox.model.count > 0
             }
 
-            indicator: UM.ColorImage
+            indicator: UM.RecolorImage
             {
                 id: downArrow
                 x: supportExtruderCombobox.width - width - supportExtruderCombobox.rightPadding
@@ -163,6 +166,8 @@ Item
                 source: UM.Theme.getIcon("ChevronSingleDown")
                 width: UM.Theme.getSize("standard_arrow").width
                 height: UM.Theme.getSize("standard_arrow").height
+                sourceSize.width: width + 5 * screenScaleFactor
+                sourceSize.height: width + 5 * screenScaleFactor
 
                 color: UM.Theme.getColor("setting_control_button")
             }
@@ -197,7 +202,7 @@ Item
                 }
             }
 
-            contentItem: UM.Label
+            contentItem: Controls2.Label
             {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -207,10 +212,12 @@ Item
 
                 text: supportExtruderCombobox.currentText
                 textFormat: Text.PlainText
+                renderType: Text.NativeRendering
+                font: UM.Theme.getFont("default")
                 color: enabled ? UM.Theme.getColor("setting_control_text") : UM.Theme.getColor("setting_control_disabled_text")
 
                 elide: Text.ElideLeft
-
+                verticalAlignment: Text.AlignVCenter
 
                 background: Rectangle
                 {
@@ -226,7 +233,7 @@ Item
                 }
             }
 
-            popup: Popup
+            popup: Controls2.Popup
             {
                 y: supportExtruderCombobox.height - UM.Theme.getSize("default_lining").height
                 width: supportExtruderCombobox.width
@@ -235,12 +242,12 @@ Item
 
                 contentItem: ListView
                 {
-                    implicitHeight: contentHeight
-
-                    ScrollBar.vertical: UM.ScrollBar {}
                     clip: true
+                    implicitHeight: contentHeight
                     model: supportExtruderCombobox.popup.visible ? supportExtruderCombobox.delegateModel : null
                     currentIndex: supportExtruderCombobox.highlightedIndex
+
+                    Controls2.ScrollIndicator.vertical: Controls2.ScrollIndicator { }
                 }
 
                 background: Rectangle
@@ -250,22 +257,34 @@ Item
                 }
             }
 
-            delegate: ItemDelegate
+            delegate: Controls2.ItemDelegate
             {
                 width: supportExtruderCombobox.width - 2 * UM.Theme.getSize("default_lining").width
                 height: supportExtruderCombobox.height
                 highlighted: supportExtruderCombobox.highlightedIndex == index
 
-                contentItem: UM.Label
+                contentItem: Controls2.Label
                 {
                     anchors.fill: parent
                     anchors.leftMargin: UM.Theme.getSize("setting_unit_margin").width
                     anchors.rightMargin: UM.Theme.getSize("setting_unit_margin").width
 
                     text: model.name
-                    color: model.enabled ? UM.Theme.getColor("setting_control_text"): UM.Theme.getColor("action_button_disabled_text")
-
+                    renderType: Text.NativeRendering
+                    color:
+                    {
+                        if (model.enabled)
+                        {
+                            UM.Theme.getColor("setting_control_text")
+                        }
+                        else
+                        {
+                            UM.Theme.getColor("action_button_disabled_text");
+                        }
+                    }
+                    font: UM.Theme.getFont("default")
                     elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
                     rightPadding: swatch.width + UM.Theme.getSize("setting_unit_margin").width
 
                     background: Rectangle

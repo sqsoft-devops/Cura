@@ -13,9 +13,12 @@ import "."
 Item
 {
     id: base
-    height: enabled ? UM.Theme.getSize("section").height + UM.Theme.getSize("narrow_margin").height : 0
+
+    height: UM.Theme.getSize("section").height
     anchors.left: parent.left
     anchors.right: parent.right
+    // To avoid overlapping with the scrollBars
+    anchors.rightMargin: 2 * UM.Theme.getSize("thin_margin").width
 
     property alias contents: controlContainer.children
     property alias hovered: mouse.containsMouse
@@ -134,7 +137,7 @@ Item
             id: label
 
             anchors.left: parent.left
-            anchors.leftMargin: doDepthIndentation ? Math.round(UM.Theme.getSize("thin_margin").width + ((definition.depth - 1) * UM.Theme.getSize("default_margin").width)) : 0
+            anchors.leftMargin: doDepthIndentation ? Math.round(UM.Theme.getSize("thin_margin").width + ((definition.depth - 1) * UM.Theme.getSize("setting_control_depth_margin").width)) : 0
             anchors.right: settingControls.left
             anchors.verticalCenter: parent.verticalCenter
 

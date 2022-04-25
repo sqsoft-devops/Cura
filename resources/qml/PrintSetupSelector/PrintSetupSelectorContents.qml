@@ -15,8 +15,10 @@ Item
     id: content
 
     property int absoluteMinimumHeight: 200 * screenScaleFactor
-    implicitWidth: UM.Theme.getSize("print_setup_widget").width
-    implicitHeight: contents.height + buttonRow.height
+
+    width: UM.Theme.getSize("print_setup_widget").width - 2 * UM.Theme.getSize("default_margin").width
+    height: contents.height + buttonRow.height
+
     enum Mode
     {
         Recommended = 0,
@@ -225,7 +227,7 @@ Item
                     color: UM.Theme.getColor("lining")
                 }
 
-                UM.ColorImage
+                UM.RecolorImage
                 {
                     width: UM.Theme.getSize("drag_icon").width
                     height: UM.Theme.getSize("drag_icon").height

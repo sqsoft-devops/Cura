@@ -1,10 +1,10 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 
-import UM 1.5 as UM
+import UM 1.3 as UM
 import Cura 1.1 as Cura
 
 
@@ -26,20 +26,31 @@ ComboBox
         {
             name: "disabled"
             when: !control.enabled
-            PropertyChanges { target: background; color: UM.Theme.getColor("setting_control_disabled")}
+            PropertyChanges { target: backgroundRectangle.border; color: UM.Theme.getColor("setting_control_disabled_border")}
+            PropertyChanges { target: backgroundRectangle; color: UM.Theme.getColor("setting_control_disabled")}
             PropertyChanges { target: contentLabel; color: UM.Theme.getColor("setting_control_disabled_text")}
         },
         State
         {
             name: "highlighted"
             when: control.hovered || control.activeFocus
-            PropertyChanges { target: background; liningColor: UM.Theme.getColor("border_main")}
+            PropertyChanges { target: backgroundRectangle.border; color: UM.Theme.getColor("setting_control_border_highlight") }
+            PropertyChanges { target: backgroundRectangle; color: UM.Theme.getColor("setting_control_highlight")}
         }
     ]
 
-    background: UM.UnderlineBackground{}
+    background: Rectangle
+    {
+        id: backgroundRectangle
+        color: UM.Theme.getColor("setting_control")
 
-    indicator: UM.ColorImage
+        radius: UM.Theme.getSize("setting_control_radius").width
+        border.width: UM.Theme.getSize("default_lining").width
+        border.color: UM.Theme.getColor("setting_control_border")
+
+    }
+
+    indicator: UM.RecolorImage
     {
         id: downArrow
         x: control.width - width - control.rightPadding
@@ -48,16 +59,20 @@ ComboBox
         source: UM.Theme.getIcon("ChevronSingleDown")
         width: UM.Theme.getSize("standard_arrow").width
         height: UM.Theme.getSize("standard_arrow").height
+        sourceSize.width: width + 5 * screenScaleFactor
+        sourceSize.height: width + 5 * screenScaleFactor
 
         color: UM.Theme.getColor("setting_control_button")
     }
 
-    contentItem: UM.Label
+    contentItem: Label
     {
         id: contentLabel
-        leftPadding: UM.Theme.getSize("setting_unit_margin").width + UM.Theme.getSize("default_margin").width
+        anchors.left: parent.left
+        anchors.leftMargin: UM.Theme.getSize("setting_unit_margin").width
+        anchors.verticalCenter: parent.verticalCenter
         anchors.right: downArrow.left
-        wrapMode: Text.NoWrap
+
         text:
         {
             if (control.delegateModel.count == 0)
@@ -71,8 +86,11 @@ ComboBox
         }
 
         textFormat: Text.PlainText
+        renderType: Text.NativeRendering
+        font: UM.Theme.getFont("default")
         color: control.currentIndex == -1 ? UM.Theme.getColor("setting_control_disabled_text") : UM.Theme.getColor("setting_control_text")
         elide: Text.ElideRight
+        verticalAlignment: Text.AlignVCenter
     }
 
     popup: Popup
@@ -85,12 +103,12 @@ ComboBox
 
         contentItem: ListView
         {
-            implicitHeight: contentHeight
-
-            ScrollBar.vertical: UM.ScrollBar {}
             clip: true
+            implicitHeight: contentHeight
             model: control.popup.visible ? control.delegateModel : null
             currentIndex: control.highlightedIndex
+
+            ScrollIndicator.vertical: ScrollIndicator { }
         }
 
         background: Rectangle
@@ -122,7 +140,7 @@ ComboBox
             return (typeof _val !== 'undefined') ? _val : ""
         }
 
-        contentItem: UM.Label
+        contentItem: Label
         {
             id: delegateLabel
             // FIXME: Somehow the top/bottom anchoring is not correct on Linux and it results in invisible texts.
@@ -132,9 +150,11 @@ ComboBox
 
             text: delegateItem.text
             textFormat: Text.PlainText
+            renderType: Text.NativeRendering
             color: UM.Theme.getColor("setting_control_text")
+            font: UM.Theme.getFont("default")
             elide: Text.ElideRight
-            wrapMode: Text.NoWrap
+            verticalAlignment: Text.AlignVCenter
         }
 
         background: UM.TooltipArea
@@ -142,6 +162,7 @@ ComboBox
             Rectangle
             {
                 color: delegateItem.highlighted ? UM.Theme.getColor("setting_control_highlight") : "transparent"
+                border.color: delegateItem.highlighted ? UM.Theme.getColor("setting_control_border_highlight") : "transparent"
                 anchors.fill: parent
             }
             text: delegateLabel.truncated ? delegateItem.text : ""

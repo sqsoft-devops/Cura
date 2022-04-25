@@ -1,8 +1,10 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.10
-import QtQuick.Controls 2.3
+import QtQuick.Controls 1.4
+import QtQuick.Controls 2.3 as Controls2
+import QtQuick.Controls.Styles 1.4
 
 import UM 1.2 as UM
 import Cura 1.6 as Cura
@@ -28,7 +30,7 @@ Item
 
         spacing: UM.Theme.getSize("default_margin").height
 
-        ButtonGroup
+        Controls2.ButtonGroup
         {
             id: activeProfileButtonGroup
             exclusive: true
@@ -67,7 +69,7 @@ Item
                     verticalCenter: parent.verticalCenter
                 }
 
-                color: hovered ? UM.Theme.getColor("setting_control_button_hover") : UM.Theme.getColor("setting_control_button")
+                color: hovered ? UM.Theme.getColor("setting_control_button_hover") : UM.Theme.getColor("primary_button")
                 iconSource: UM.Theme.getIcon("ArrowReset")
 
                 onClicked:

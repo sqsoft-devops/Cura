@@ -4,7 +4,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 
-import UM 1.5 as UM
+import UM 1.4 as UM
 import Cura 1.1 as Cura
 
 Column
@@ -12,12 +12,14 @@ Column
     spacing: UM.Theme.getSize("default_margin").width
     padding: UM.Theme.getSize("default_margin").width
 
-    UM.Label
+    Label
     {
         id: title
         anchors.horizontalCenter: parent.horizontalCenter
-        text: catalog.i18nc("@label", "Sign in to the Ultimaker platform")
+        renderType: Text.NativeRendering
+        text: catalog.i18nc("@label",  "Sign in to the Ultimaker platform")
         font: UM.Theme.getFont("large_bold")
+        color: UM.Theme.getColor("text")
     }
 
     Image
@@ -31,14 +33,16 @@ Column
         verticalAlignment: Image.AlignVCenter
     }
 
-    UM.Label
+    Label
     {
         id: generalInformationPoints
         anchors.horizontalCenter: parent.horizontalCenter
         horizontalAlignment: Text.AlignLeft
+        renderType: Text.NativeRendering
         text: catalog.i18nc("@text", "- Add material profiles and plug-ins from the Marketplace\n- Back-up and sync your material profiles and plug-ins\n- Share ideas and get help from 48,000+ users in the Ultimaker community")
         lineHeight: 1.4
-        wrapMode: Text.NoWrap
+        font: UM.Theme.getFont("default")
+        color: UM.Theme.getColor("text")
     }
 
     Cura.PrimaryButton

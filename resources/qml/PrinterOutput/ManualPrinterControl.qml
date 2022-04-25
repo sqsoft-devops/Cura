@@ -1,11 +1,12 @@
-// Copyright (c) 2022 Ultimaker B.V.
+// Copyright (c) 2019 Ultimaker B.V.
 // Cura is released under the terms of the LGPLv3 or higher.
 
 import QtQuick 2.10
-import QtQuick.Controls 2.1
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 
-import UM 1.5 as UM
+import UM 1.3 as UM
 import Cura 1.0 as Cura
 
 import "."
@@ -16,7 +17,7 @@ Item
     property var printerModel: null
     property var activePrintJob: printerModel != null ? printerModel.activePrintJob : null
     property var connectedPrinter: Cura.MachineManager.printerOutputDevices.length >= 1 ? Cura.MachineManager.printerOutputDevices[0] : null
-    property var _buttonSize: UM.Theme.getSize("setting_control").height + UM.Theme.getSize("thin_margin").height
+
     implicitWidth: parent.width
     implicitHeight: childrenRect.height
 
@@ -61,13 +62,15 @@ Item
 
             spacing: UM.Theme.getSize("default_margin").width
 
-            UM.Label
+            Label
             {
                 text: catalog.i18nc("@label", "Jog Position")
                 color: UM.Theme.getColor("setting_control_text")
+                font: UM.Theme.getFont("default")
 
                 width: Math.floor(parent.width * 0.4) - UM.Theme.getSize("default_margin").width
                 height: UM.Theme.getSize("setting_control").height
+                verticalAlignment: Text.AlignVCenter
             }
 
             GridLayout
@@ -77,12 +80,14 @@ Item
                 rowSpacing: UM.Theme.getSize("default_lining").width
                 columnSpacing: UM.Theme.getSize("default_lining").height
 
-                UM.Label
+                Label
                 {
                     text: catalog.i18nc("@label", "X/Y")
                     color: UM.Theme.getColor("setting_control_text")
+                    font: UM.Theme.getFont("default")
                     width: height
                     height: UM.Theme.getSize("setting_control").height
+                    verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
 
                     Layout.row: 0
@@ -91,64 +96,89 @@ Item
                     Layout.preferredHeight: height
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
                     Layout.row: 1
                     Layout.column: 1
-                    Layout.preferredWidth: _buttonSize
-                    Layout.preferredHeight: _buttonSize
-                    iconSource: UM.Theme.getIcon("ChevronSingleUp")
-                    leftPadding: (Layout.preferredWidth - iconSize) / 2
+                    Layout.preferredWidth: width
+                    Layout.preferredHeight: height
+                    iconSource: UM.Theme.getIcon("ChevronSingleUp");
+                    style: UM.Theme.styles.monitor_button_style
+                    width: height
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked: printerModel.moveHead(0, distancesRow.currentDistance, 0)
+                    onClicked:
+                    {
+                        printerModel.moveHead(0, distancesRow.currentDistance, 0)
+                    }
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
                     Layout.row: 2
                     Layout.column: 0
-                    Layout.preferredWidth: _buttonSize
-                    Layout.preferredHeight: _buttonSize
-                    iconSource: UM.Theme.getIcon("ChevronSingleLeft")
-                    leftPadding: (Layout.preferredWidth - iconSize) / 2
+                    Layout.preferredWidth: width
+                    Layout.preferredHeight: height
+                    iconSource: UM.Theme.getIcon("ChevronSingleLeft");
+                    style: UM.Theme.styles.monitor_button_style
+                    width: height
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked: printerModel.moveHead(-distancesRow.currentDistance, 0, 0)
+                    onClicked:
+                    {
+                        printerModel.moveHead(-distancesRow.currentDistance, 0, 0)
+                    }
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
                     Layout.row: 2
                     Layout.column: 2
-                    Layout.preferredWidth: _buttonSize
-                    Layout.preferredHeight: _buttonSize
-                    iconSource: UM.Theme.getIcon("ChevronSingleRight")
-                    leftPadding: (Layout.preferredWidth - iconSize) / 2
+                    Layout.preferredWidth: width
+                    Layout.preferredHeight: height
+                    iconSource: UM.Theme.getIcon("ChevronSingleRight");
+                    style: UM.Theme.styles.monitor_button_style
+                    width: height
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked:  printerModel.moveHead(distancesRow.currentDistance, 0, 0)
+                    onClicked:
+                    {
+                        printerModel.moveHead(distancesRow.currentDistance, 0, 0)
+                    }
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
                     Layout.row: 3
                     Layout.column: 1
-                    Layout.preferredWidth: _buttonSize
-                    Layout.preferredHeight: _buttonSize
-                    iconSource: UM.Theme.getIcon("ChevronSingleDown")
-                    leftPadding: (Layout.preferredWidth - iconSize) / 2
+                    Layout.preferredWidth: width
+                    Layout.preferredHeight: height
+                    iconSource: UM.Theme.getIcon("ChevronSingleDown");
+                    style: UM.Theme.styles.monitor_button_style
+                    width: height
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked: printerModel.moveHead(0, -distancesRow.currentDistance, 0)
+                    onClicked:
+                    {
+                        printerModel.moveHead(0, -distancesRow.currentDistance, 0)
+                    }
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
                     Layout.row: 2
                     Layout.column: 1
-                    Layout.preferredWidth: _buttonSize
-                    Layout.preferredHeight: _buttonSize
-                    iconSource: UM.Theme.getIcon("House")
-                    leftPadding: (Layout.preferredWidth - iconSize) / 2
+                    Layout.preferredWidth: width
+                    Layout.preferredHeight: height
+                    iconSource: UM.Theme.getIcon("House");
+                    style: UM.Theme.styles.monitor_button_style
+                    width: height
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked:  printerModel.homeHead()
+                    onClicked:
+                    {
+                        printerModel.homeHead()
+                    }
                 }
             }
 
@@ -157,44 +187,54 @@ Item
             {
                 spacing: UM.Theme.getSize("default_lining").height
 
-                UM.Label
+                Label
                 {
                     text: catalog.i18nc("@label", "Z")
                     color: UM.Theme.getColor("setting_control_text")
+                    font: UM.Theme.getFont("default")
                     width: UM.Theme.getSize("section").height
                     height: UM.Theme.getSize("setting_control").height
+                    verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
-                    iconSource: UM.Theme.getIcon("ChevronSingleUp")
+                    iconSource: UM.Theme.getIcon("ChevronSingleUp");
+                    style: UM.Theme.styles.monitor_button_style
                     width: height
-                    height: _buttonSize
-                    leftPadding: (width - iconSize) / 2
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked: printerModel.moveHead(0, 0, distancesRow.currentDistance)
-
+                    onClicked:
+                    {
+                        printerModel.moveHead(0, 0, distancesRow.currentDistance)
+                    }
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
-                    iconSource: UM.Theme.getIcon("House")
+                    iconSource: UM.Theme.getIcon("House");
+                    style: UM.Theme.styles.monitor_button_style
                     width: height
-                    height: _buttonSize
-                    leftPadding: (width - iconSize) / 2
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked: printerModel.homeBed()
+                    onClicked:
+                    {
+                        printerModel.homeBed()
+                    }
                 }
 
-                Cura.SecondaryButton
+                Button
                 {
-                    iconSource: UM.Theme.getIcon("ChevronSingleDown")
+                    iconSource: UM.Theme.getIcon("ChevronSingleDown");
+                    style: UM.Theme.styles.monitor_button_style
                     width: height
-                    height: _buttonSize
-                    leftPadding: (width - iconSize) / 2
+                    height: UM.Theme.getSize("setting_control").height
 
-                    onClicked: printerModel.moveHead(0, 0, -distancesRow.currentDistance)
+                    onClicked:
+                    {
+                        printerModel.moveHead(0, 0, -distancesRow.currentDistance)
+                    }
                 }
             }
         }
@@ -212,13 +252,15 @@ Item
 
             property real currentDistance: 10
 
-            UM.Label
+            Label
             {
                 text: catalog.i18nc("@label", "Jog Distance")
                 color: UM.Theme.getColor("setting_control_text")
+                font: UM.Theme.getFont("default")
 
                 width: Math.floor(parent.width * 0.4) - UM.Theme.getSize("default_margin").width
                 height: UM.Theme.getSize("setting_control").height
+                verticalAlignment: Text.AlignVCenter
             }
 
             Row
@@ -226,16 +268,18 @@ Item
                 Repeater
                 {
                     model: distancesModel
-                    delegate: Cura.SecondaryButton
+                    delegate: Button
                     {
                         height: UM.Theme.getSize("setting_control").height
+                        width: height + UM.Theme.getSize("default_margin").width
 
                         text: model.label
-                        ButtonGroup.group: distanceGroup
-                        color: distancesRow.currentDistance == model.value ? UM.Theme.getColor("primary_button") : UM.Theme.getColor("secondary_button")
-                        textColor: distancesRow.currentDistance == model.value ? UM.Theme.getColor("primary_button_text"): UM.Theme.getColor("secondary_button_text")
-                        hoverColor: distancesRow.currentDistance == model.value ? UM.Theme.getColor("primary_button_hover"): UM.Theme.getColor("secondary_button_hover")
+                        exclusiveGroup: distanceGroup
+                        checkable: true
+                        checked: distancesRow.currentDistance == model.value
                         onClicked: distancesRow.currentDistance = model.value
+
+                        style: UM.Theme.styles.monitor_checkable_button_style
                     }
                 }
             }
@@ -252,13 +296,15 @@ Item
 
             spacing: UM.Theme.getSize("default_margin").width
 
-            UM.Label
+            Label
             {
                 text: catalog.i18nc("@label", "Send G-code")
                 color: UM.Theme.getColor("setting_control_text")
+                font: UM.Theme.getFont("default")
 
                 width: Math.floor(parent.width * 0.4) - UM.Theme.getSize("default_margin").width
                 height: UM.Theme.getSize("setting_control").height
+                verticalAlignment: Text.AlignVCenter
             }
 
             Row
@@ -364,6 +410,6 @@ Item
             ListElement { label: "10";  value: 10  }
             ListElement { label: "100"; value: 100 }
         }
-        ButtonGroup { id: distanceGroup }
+        ExclusiveGroup { id: distanceGroup }
     }
 }

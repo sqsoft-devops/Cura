@@ -16,5 +16,4 @@ Cura.ActionButton
     textDisabledColor: UM.Theme.getColor("action_button_disabled_text")
     hoverColor: "transparent"
     underlineTextOnHover: true
-    iconSize: UM.Theme.getSize("action_button_icon_small").height
 }

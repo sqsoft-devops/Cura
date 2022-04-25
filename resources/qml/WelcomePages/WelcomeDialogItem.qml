@@ -4,6 +4,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.0  // For the DropShadow
 
 import UM 1.3 as UM
 import Cura 1.1 as Cura
@@ -44,8 +45,7 @@ Item
     }
 
     // Drop shadow around the panel
-    // TODO: Maybe re-implement this some other way.
-    /*DropShadow
+    DropShadow
     {
         id: shadow
         radius: UM.Theme.getSize("first_run_shadow_radius").width
@@ -55,7 +55,7 @@ Item
         verticalOffset: shadowOffset
         color: UM.Theme.getColor("first_run_shadow")
         transparentBorder: true
-    }*/
+    }
 
     // Close this dialog when there's no more page to show
     Connections
