@@ -142,7 +142,7 @@ Item
                 id: handleButton
                 x: infillSlider.leftPadding + infillSlider.visualPosition * (infillSlider.availableWidth - width)
                 y: infillSlider.topPadding + infillSlider.availableHeight / 2 - height / 2
-                color: infillSlider.enabled ? UM.Theme.getColor("primary") : UM.Theme.getColor("quality_slider_unavailable")
+                color: infillSlider.enabled ? UM.Theme.getColor("zmorph_yellow") : UM.Theme.getColor("quality_slider_unavailable")
                 implicitWidth: UM.Theme.getSize("print_setup_slider_handle").width
                 implicitHeight: implicitWidth
                 radius: Math.round(implicitWidth / 2)
