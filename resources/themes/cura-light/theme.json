@@ -7,166 +7,166 @@
         "large": {
             "size": 1.35,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "large_ja_JP": {
             "size": 1.35,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "large_zh_CN": {
             "size": 1.35,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "large_zh_TW": {
             "size": 1.35,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "large_bold": {
             "size": 1.35,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "huge": {
             "size": 1.8,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "huge_bold": {
             "size": 1.8,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "medium": {
             "size": 1.16,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "medium_ja_JP": {
             "size": 1.16,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "medium_zh_CN": {
             "size": 1.16,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "medium_zh_TW": {
             "size": 1.16,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "medium_bold": {
             "size": 1.16,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "default": {
             "size": 0.95,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_ja_JP": {
             "size": 1.0,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_zh_CN": {
             "size": 1.0,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_zh_TW": {
             "size": 1.0,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_bold": {
             "size": 0.95,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "default_bold_ja_JP": {
             "size": 1.0,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "default_bold_zh_CN": {
             "size": 1.0,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "default_bold_zh_TW": {
             "size": 1.0,
             "weight": 600,
-            "family": "Noto Sans"
+            "family": "Boxed Regular Bold"
         },
         "default_italic": {
             "size": 0.95,
             "weight": 400,
             "italic": true,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_italic_ja_JP": {
             "size": 1.0,
             "weight": 400,
             "italic": true,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_italic_zh_CN": {
             "size": 1.0,
             "weight": 400,
             "italic": true,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "default_italic_zh_TW": {
             "size": 1.0,
             "weight": 400,
             "italic": true,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small": {
             "size": 0.9,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_ja_JP": {
             "size": 0.9,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_zh_CN": {
             "size": 0.9,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_zh_TW": {
             "size": 0.9,
             "weight": 400,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_emphasis": {
             "size": 0.9,
             "weight": 700,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_emphasis_ja_JP": {
             "size": 0.9,
             "weight": 700,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_emphasis_zh_CN": {
             "size": 0.9,
             "weight": 700,
-            "family": "Noto Sans"
+            "family": "boxed"
         },
         "small_emphasis_zh_TW": {
             "size": 0.9,
             "weight": 700,
-            "family": "Noto Sans"
+            "family": "boxed"
         }
     },
 
@@ -187,7 +187,7 @@
         "text_disabled": [180, 180, 180, 255],
         "text_primary_button": [255, 255, 255, 255],
         "text_secondary_button": [32, 45, 53, 255],
-        "text_link_hover": [32, 45, 53, 255],
+        "text_link_hover": [32, 45, 53, 128],
         "text_lighter": [108, 108, 108, 255],
 
         "um_green_1": [233, 245, 237, 255],
@@ -223,7 +223,7 @@
         "secondary": [240, 240, 240, 255],
 
         "expandable_active": [240, 240, 240, 255],
-        "expandable_hover": [232, 242, 252, 255],
+        "expandable_hover": [143, 149, 153, 255],
 
         "icon": [32, 45, 53, 255],
 
@@ -238,7 +238,7 @@
 
         "main_window_header_background": [32, 45, 53, 255],
         "main_window_header_background_gradient": [32, 45, 53, 255],
-        "main_window_header_button_text_active": [8, 7, 63, 255],
+        "main_window_header_button_text_active": [32, 45, 53, 255],
         "main_window_header_button_text_inactive": [255, 255, 255, 255],
         "main_window_header_button_text_hovered": [255, 255, 255, 255],
         "main_window_header_button_background_active": [255, 255, 255, 255],
@@ -265,7 +265,7 @@
         "text": [32, 45, 53, 255],
         "text_disabled": [180, 180, 180, 255],
         "text_detail": [174, 174, 174, 128],
-        "text_link": [25, 110, 240, 255],
+        "text_link": [32, 45, 53, 255],
         "text_inactive": [174, 174, 174, 255],
         "text_medium": [128, 128, 128, 255],
         "text_scene": [102, 102, 102, 255],
@@ -283,7 +283,7 @@
         "button_text": [255, 255, 255, 255],
 
         "small_button_text": [102, 102, 102, 255],
-        "small_button_text_hover": [8, 7, 63, 255],
+        "small_button_text_hover": [32, 45, 53, 25],
 
         "button_tooltip": [32, 45, 53, 255],
 
@@ -373,7 +373,7 @@
 
         "category_background": "background_2",
 
-        "tooltip": [25, 25, 25, 255],
+        "tooltip": [32, 45, 53, 255],
         "tooltip_text": [255, 255, 255, 255],
 
         "message_background": [255, 255, 255, 255],
@@ -443,7 +443,7 @@
 
         "monitor_card_border": [192, 193, 194, 255],
         "monitor_card_background": [255, 255, 255, 255],
-        "monitor_card_hover": [232, 242, 252, 255],
+        "monitor_card_hover": [143, 149, 153, 255],
 
         "monitor_stage_background": [246, 246, 246, 255],
         "monitor_stage_background_fade": [246, 246, 246, 102],
@@ -576,7 +576,7 @@
         "scrollbar": [0.75, 0.5],
 
         "slider_groove": [0.5, 0.5],
-        "slider_groove_radius": [0, 0],
+        "slider_groove_radius": [0.15, 0.15],
         "slider_handle": [1.5, 1.5],
         "slider_layerview_size": [1.0, 34.0],
 
