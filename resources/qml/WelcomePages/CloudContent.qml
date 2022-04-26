@@ -229,7 +229,7 @@ Item
         contentItem: Text {
             text: signInButton.text
             font: UM.Theme.getFont("medium")
-            color: UM.Theme.getColor("text")
+            color: UM.Theme.getColor("primary_text")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
