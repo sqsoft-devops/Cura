@@ -268,25 +268,6 @@ UM.PreferencesPage
                     onTextChanged: UM.Preferences.setValue("cura/currency", text)
                 }
 
-                UM.Label
-                {
-                    id: themeLabel
-                    text: catalog.i18nc("@label: Please keep the asterix, it's to indicate that a restart is needed.", "Theme*:")
-                }
-
-                ListModel
-                {
-                    id: themeList
-
-                    Component.onCompleted: {
-                        var themes = UM.Theme.getThemes()
-                        for (var i = 0; i < themes.length; i++)
-                        {
-                            append({ text: themes[i].name.toString(), code: themes[i].id.toString() });
-                        }
-                    }
-                }
-
                 Cura.ComboBox
                 {
                     id: themeComboBox
